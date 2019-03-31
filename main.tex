@@ -1,0 +1,184 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{biblatex}
+\setlength\bibitemsep{\baselineskip}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage{todonotes}
+\usepackage{authblk}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[a4paper, top=2in]{geometry}
+\usepackage{multicol}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{nomencl}
+\usepackage[acronym, nopostdot, nogroupskip, nonumberlist]{glossaries}
+\makeglossaries
+
+\makenomenclature
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{mathptmx}
+\usepackage{glossary-inline}
+\usepackage{etoolbox}
+
+\setglossarystyle{tree}
+\renewcommand\glstreepredesc{, }
+
+\makeatletter
+\patchcmd{\@chapter}{\addtocontents{lof}{\protect\addvspace{10\p@}}}{}{}{}% LoF
+\patchcmd{\@chapter}{\addtocontents{lot}{\protect\addvspace{10\p@}}}{}{}{}% LoT
+\makeatother
+
+% Name overrides
+\addto\captionsenglish{
+\renewcommand{\listfigurename}{\normalfont\normalsize LIST OF FIGURES}
+\renewcommand{\chaptername}{\normalfont\normalsize CHAPTER}
+\renewcommand{\listtablename}{\normalfont\normalsize LIST OF TABLES}
+\renewcommand{\nomname}{\normalfont\normalsize LIST OF SYMBOLS}
+\renewcommand*\contentsname{\normalfont\normalsize TABLE OF CONTENTS}
+}
+
+% Formatting
+\setlength{\parindent}{0.5in}
+\titleformat{\chapter}[display]{\centering\normalfont\normalsize}{CHAPTER \arabic{chapter}}{0pt}{}{}
+\titleformat*{\section}{\raggedright\bfseries\normalsize}
+\titleformat*{\subsection}{\raggedright\bfseries\itshape\normalsize}
+\titleformat*{\subsubsection}{\normalfont\underline\normalsize}
+\renewcommand\cftchapfont{\normalfont\normalsize}
+\renewcommand\cftchappagefont{\normalfont\normalsize}
+\renewcommand\cftpartfont{\normalfont\normalsize}
+\renewcommand\cftpartpagefont{\normalfont\normalsize}
+\renewcommand{\glsnamefont}[1]{\normalfont{#1}}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdot}}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdot}}
+\renewcommand{\cftpartleader}{\cftdotfill{\cftdot}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdot}}
+\renewcommand{\cftfigleader}{\cftdotfill{\cftdot}}
+\renewcommand{\cfttableader}{\cftdotfill{\cftdot}}
+\renewcommand\cftchapafterpnum{\vskip1.0\baselineskip}
+
+\renewcommand\cftfigafterpnum{\vskip\baselineskip}
+\renewcommand\cfttabafterpnum{\vskip\baselineskip}
+\renewcommand{\glsgroupskip}{\vskip\baselineskip}
+% Spacing
+\titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
+\titlespacing*{\section}{0pt}{1\baselineskip}{0pt}%spacing between headings
+\titlespacing*{\subsection}{0pt}{1\baselineskip}{0pt}
+\titlespacing*{\subsubsection}{0pt}{1\baselineskip}{0pt}
+
+% Indents
+\cftsetindents{chapter}{.2in}{.25in}
+\cftsetindents{section}{.5in}{.35in}
+\cftsetindents{subsection}{.75in}{.5in}
+\cftsetindents{subsubsection}{1in}{.5in}
+
+
+% References
+\addbibresource{references.bib}
+\input{chapters/ix-Acronyms.tex}
+
+\begin{document}
+
+% Coverpage
+\input{chapters/i-Coverpage.tex}
+\newpage
+
+% Title
+\input{chapters/ii-Title.tex}
+\newpage
+
+% Abstract
+\doublespacing
+\pagenumbering{roman}
+\setcounter{page}{3}
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize ABSTRACT}
+\input{chapters/iii-Abstract.tex}
+\newpage
+
+% Acknowledgements
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize ACKNOWLEDGEMENTS}
+\input{chapters/iv-Acknowledgements.tex}
+\newpage
+
+\singlespacing
+% Table of Contents
+\begin{center}
+    \tableofcontents
+\end{center}
+\newpage
+
+% List of Tables
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF TABLES}
+\begin{center}
+    \listoftables
+\end{center}
+\newpage
+
+% List of Figures
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF FIGURES}
+\begin{center}
+    \listoffigures
+\end{center}
+\newpage
+
+% List of Abbreviates
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF ABBREVIATIONS}
+\input{chapters/ListOfAbbreviations.tex}
+\newpage
+
+% List of Symbols
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF SYMBOLS}
+\input{chapters/x-Symbols.tex}
+\newpage
+
+\newgeometry{top=1in}
+\addcontentsline{toc}{part}{\vspace{0.5\baselineskip}\normalfont\normalsize CHAPTER}
+% Introduction
+
+\doublespacing
+\pagenumbering{arabic}
+\input{chapters/01-Introduction.tex}
+\newpage
+
+% Literature Review
+\input{chapters/02-Background.tex}
+\newpage
+
+% Methodology
+\input{chapters/03-Methodology.tex}
+\newpage
+
+% Results
+\input{chapters/04-Results.tex}
+\newpage
+
+% Conclusion
+\input{chapters/05-Conclusion.tex}
+\newpage
+
+% References
+\newgeometry{top=2in}
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize REFERENCES}
+\chapter*{REFERENCES}
+\singlespacing
+\printbibliography[heading=none]
+\newpage
+
+% Vita
+\doublespacing
+\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize VITA}
+\input{chapters/Vita.tex}
+
+
+\end{document}
