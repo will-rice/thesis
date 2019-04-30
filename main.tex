@@ -1,7 +1,7 @@
 \documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{biblatex}
+\usepackage[giveninits=true]{biblatex}
 \setlength\bibitemsep{\baselineskip}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -13,9 +13,12 @@
 \usepackage{indentfirst}
 \usepackage{epsfig}
 \usepackage{graphicx}
+\usepackage{caption}%better captions for figures and tables
+\usepackage{afterpage}
 \usepackage{subcaption}
+
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
-\usepackage[a4paper, top=2in]{geometry}
+\usepackage[a4paper, right=1in, left=1in,top=2in,bottom=1in, headheight=0in]{geometry}%margins
 \usepackage{multicol}
 \usepackage{csquotes}
 \usepackage{xcolor}
@@ -25,11 +28,34 @@
 \makeglossaries
 
 \makenomenclature
-\usepackage{titlesec}
+\usepackage[md]{titlesec}
 \usepackage{tocloft}
 \usepackage{mathptmx}
 \usepackage{glossary-inline}
 \usepackage{etoolbox}
+
+\usepackage{everypage}
+\usepackage{calc}
+\usepackage{url}
+\urlstyle{same}
+
+\renewcommand{\thechapter}{\arabic{chapter}.}
+\renewcommand{\thesection}{\thechapter\arabic{section}}
+\renewcommand{\thefigure}{\thechapter\arabic{figure}}
+\renewcommand{\thetable}{\thechapter\arabic{table}}
+\renewcommand{\theequation}{\thechapter\arabic{equation}}
+
+\AddEverypageHook{\addtocontents{toc}{
+\protect\cftsetpnumwidth{\widthof{\thepage}-.2em}
+}}
+
+\AddEverypageHook{\addtocontents{lof}{
+\protect\cftsetpnumwidth{\widthof{\thepage}-.2em}
+}}
+
+\AddEverypageHook{\addtocontents{lot}{
+\protect\cftsetpnumwidth{\widthof{\thepage}-.2em}
+}}
 
 \setglossarystyle{tree}
 \renewcommand\glstreepredesc{, }
@@ -37,6 +63,8 @@
 \makeatletter
 \patchcmd{\@chapter}{\addtocontents{lof}{\protect\addvspace{10\p@}}}{}{}{}% LoF
 \patchcmd{\@chapter}{\addtocontents{lot}{\protect\addvspace{10\p@}}}{}{}{}% LoT
+\patchcmd{\chapter}{\addtocontents{toc}{\protect\addvspace{10\p@}}}{}{}{}% LoT
+\patchcmd{\part}{\addtocontents{toc}{\protect\addvspace{10\p@}}}{}{}{}% LoT
 \makeatother
 
 % Name overrides
@@ -48,8 +76,17 @@
 \renewcommand*\contentsname{\normalfont\normalsize TABLE OF CONTENTS}
 }
 
+
+
+
 % Formatting
 \setlength{\parindent}{0.5in}
+\setlength{\cftbeforetoctitleskip}{0.8in}
+\setlength{\cftbeforeloftitleskip}{0.8in}
+\setlength{\cftbeforelottitleskip}{0.8in}
+\setlength{\cftafterloftitleskip}{2.0\baselineskip}
+\setlength{\cftafterlottitleskip}{2.0\baselineskip}
+\setlength{\cftaftertoctitleskip}{1.0\baselineskip}
 \titleformat{\chapter}[display]{\centering\normalfont\normalsize}{CHAPTER \arabic{chapter}}{0pt}{}{}
 \titleformat*{\section}{\raggedright\bfseries\normalsize}
 \titleformat*{\subsection}{\raggedright\bfseries\itshape\normalsize}
@@ -60,35 +97,41 @@
 \renewcommand\cftpartpagefont{\normalfont\normalsize}
 \renewcommand{\glsnamefont}[1]{\normalfont{#1}}
 
+\renewcommand{\cftpartleader}{\cftdotfill{\cftdot}}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdot}}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdot}}
-\renewcommand{\cftpartleader}{\cftdotfill{\cftdot}}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdot}}
 \renewcommand{\cftfigleader}{\cftdotfill{\cftdot}}
 \renewcommand{\cfttableader}{\cftdotfill{\cftdot}}
-\renewcommand\cftchapafterpnum{\vskip1.0\baselineskip}
-
+\renewcommand\cftchapafterpnum{\vskip0.5\baselineskip}
+\renewcommand\cftpartafterpnum{\vskip\baselineskip}
 \renewcommand\cftfigafterpnum{\vskip\baselineskip}
 \renewcommand\cfttabafterpnum{\vskip\baselineskip}
 \renewcommand{\glsgroupskip}{\vskip\baselineskip}
 % Spacing
-\titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
+\titlespacing{\chapter}{0pt}{0.7in}{\baselineskip}
+\titlespacing*{name=\chapter,numberless}{0pt}{0.8in}{\baselineskip}
 \titlespacing*{\section}{0pt}{1\baselineskip}{0pt}%spacing between headings
 \titlespacing*{\subsection}{0pt}{1\baselineskip}{0pt}
-\titlespacing*{\subsubsection}{0pt}{1\baselineskip}{0pt}
+\titlespacing{\subsection}{0pt}{1\baselineskip}{0pt}
 
 % Indents
 \cftsetindents{chapter}{.2in}{.25in}
-\cftsetindents{section}{.5in}{.35in}
-\cftsetindents{subsection}{.75in}{.5in}
-\cftsetindents{subsubsection}{1in}{.5in}
-
+\cftsetindents{section}{.45in}{.25in}
+\cftsetindents{subsection}{0.7in}{0.4in}
 
 % References
 \addbibresource{references.bib}
 \input{chapters/ix-Acronyms.tex}
 
+
+
+
 \begin{document}
+
+\captionsetup[table]{labelsep=newline}
+\captionsetup[figure]{labelsep=newline}
+
 
 % Coverpage
 \input{chapters/i-Coverpage.tex}
@@ -98,16 +141,18 @@
 \input{chapters/ii-Title.tex}
 \newpage
 
+\newgeometry{right=1in, left=1in,top=1in,bottom=1in, headheight=0in}
+
 % Abstract
-\doublespacing
+\singlespacing
 \pagenumbering{roman}
 \setcounter{page}{3}
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize ABSTRACT}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize ABSTRACT}
 \input{chapters/iii-Abstract.tex}
 \newpage
 
 % Acknowledgements
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize ACKNOWLEDGEMENTS}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize ACKNOWLEDGEMENTS}
 \input{chapters/iv-Acknowledgements.tex}
 \newpage
 
@@ -118,34 +163,36 @@
 \end{center}
 \newpage
 
+
 % List of Tables
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF TABLES}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize LIST OF TABLES}
 \begin{center}
     \listoftables
 \end{center}
 \newpage
 
 % List of Figures
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF FIGURES}
 \begin{center}
     \listoffigures
 \end{center}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize LIST OF FIGURES}
 \newpage
 
+
 % List of Abbreviates
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF ABBREVIATIONS}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize LIST OF ABBREVIATIONS}
 \input{chapters/ListOfAbbreviations.tex}
 \newpage
 
 % List of Symbols
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize LIST OF SYMBOLS}
+\addcontentsline{toc}{part}{\vspace{-1.0\baselineskip}\normalfont\normalsize LIST OF SYMBOLS}
 \input{chapters/x-Symbols.tex}
 \newpage
 
-\newgeometry{top=1in}
-\addcontentsline{toc}{part}{\vspace{0.5\baselineskip}\normalfont\normalsize CHAPTER}
-% Introduction
+\cftaddtitleline{toc}{part}{\vspace{-1.0\baselineskip}\normalfont\normalsize CHAPTER}{}
 
+\raggedright
+% Introduction
 \doublespacing
 \pagenumbering{arabic}
 \input{chapters/01-Introduction.tex}
@@ -168,16 +215,15 @@
 \newpage
 
 % References
-\newgeometry{top=2in}
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize REFERENCES}
-\chapter*{REFERENCES}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize REFERENCES}
 \singlespacing
+\chapter*{REFERENCES}
+\vspace{\baselineskip}
 \printbibliography[heading=none]
 \newpage
 
 % Vita
-\doublespacing
-\addcontentsline{toc}{part}{\vspace{-1.2\baselineskip}\normalfont\normalsize VITA}
+\addcontentsline{toc}{part}{\vspace{-2.0\baselineskip}\normalfont\normalsize VITA}
 \input{chapters/Vita.tex}
 
 
